@@ -24,6 +24,16 @@ Backend image 会在构建时下载同 tag 的 Frontend release asset，因此�
 
 ## Panel 主机部署
 
+### 一键安装
+
+确认脚本内容后，可以执行：
+
+```bash
+curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.1.0-rc.1/install-panel.sh | bash
+```
+
+脚本会询问 Panel 域名，自动生成 `APP_SECRET`、数据库密码和 metrics 密码，然后下载固定版本 Compose 并启动服务。默认安装目录为 `~/remnawave-custom`，已存在的 `.env` 不会被覆盖。
+
 ```bash
 mkdir -p remnawave-custom
 cd remnawave-custom
@@ -74,6 +84,16 @@ http://127.0.0.1:3000
 不要把 PostgreSQL 的 `6767` 或 metrics 的 `3001` 暴露到公网。Compose 模板默认只绑定到本机。
 
 ## Node 主机部署
+
+### 一键安装
+
+先在 Panel 中创建 Node 并复制 Secret，然后执行：
+
+```bash
+curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.1.0-rc.1/install-node.sh | bash
+```
+
+脚本会安全地询问 Node Secret，下载固定版本 Node Compose，启用 `NET_ADMIN` 和 `nftables` Port Hopping，并启动 Node。默认安装目录为 `~/remnawave-custom-node`，已存在的 `.env.node` 不会被覆盖。
 
 在每台 Node 主机上下载模板：
 
