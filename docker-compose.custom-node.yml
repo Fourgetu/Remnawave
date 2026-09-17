@@ -1,0 +1,19 @@
+services:
+  remnanode:
+    image: ${CUSTOM_NODE_IMAGE:-ghcr.io/fourgetu/remnawave-node:custom-v0.1.0-rc.1}
+    container_name: remnanode-custom
+    hostname: remnanode
+    network_mode: host
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576
+    env_file:
+      - .env.node
+    environment:
+      NODE_PORT: ${NODE_PORT:-2222}
+      SECRET_KEY: ${SECRET_KEY}
+      PORT_HOPPING_INGRESS: ${PORT_HOPPING_INGRESS:-nftables}
