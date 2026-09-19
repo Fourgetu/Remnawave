@@ -18,6 +18,7 @@
     "lint": "oxlint --format=stylish",
     "lint:fix": "oxlint --fix",
     "check": "oxfmt --check && oxlint",
+    "check:custom-node-compose": "node scripts/check-custom-node-compose.mjs",
     "fix": "oxfmt && oxlint --fix"
   },
   "dependencies": {
