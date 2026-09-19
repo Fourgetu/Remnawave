@@ -13,6 +13,7 @@ services:
       - remnawave-custom-network
     volumes:
       - valkey-socket:/var/run/valkey
+      - ${PANEL_CERTIFICATE_HOST_DIR:-./panel-certificate}:/var/lib/remnawave/panel-certificate:ro
     ports:
       - 127.0.0.1:${APP_PORT:-3000}:3000
       - 127.0.0.1:${METRICS_PORT:-3001}:3001

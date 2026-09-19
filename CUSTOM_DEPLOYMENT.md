@@ -4,12 +4,12 @@
 
 ## 版本清单
 
-| 组件 | Git tag | 产物 |
-|---|---|---|
-| Backend | `custom-v0.2.0` | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.0` |
-| Node | `custom-v0.2.0` | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.0` |
-| Frontend | `custom-v0.2.0` | GitHub Release asset `remnawave-frontend.zip`；已内嵌到 Backend image |
-| Panel/docs | `custom-v0.2.0` | 本文档、Compose 模板和部署说明 |
+| 组件       | Git tag         | 产物                                                                  |
+| ---------- | --------------- | --------------------------------------------------------------------- |
+| Backend    | `custom-v0.2.0` | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.0`                    |
+| Node       | `custom-v0.2.0` | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.0`                       |
+| Frontend   | `custom-v0.2.0` | GitHub Release asset `remnawave-frontend.zip`；已内嵌到 Backend image |
+| Panel/docs | `custom-v0.2.0` | 本文档、Compose 模板和部署说明                                        |
 
 Backend image 会在构建时下载同 tag 的 Frontend release asset，因此部署时不需要额外运行 Frontend 容器。
 
@@ -50,6 +50,9 @@ cp .env.example .env
 ```dotenv
 APP_SECRET=请使用至少32字节的随机值
 PANEL_DOMAIN=panel.example.com
+PANEL_CERTIFICATE_HOST_DIR=/opt/remnawave/nginx
+PANEL_CERTIFICATE_PATH=/var/lib/remnawave/panel-certificate/fullchain.pem
+PANEL_PRIVATE_KEY_PATH=/var/lib/remnawave/panel-certificate/privkey.key
 FRONT_END_DOMAIN=https://panel.example.com
 SUB_PUBLIC_DOMAIN=panel.example.com/api/sub
 POSTGRES_PASSWORD=请修改为随机密码
