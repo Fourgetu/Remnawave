@@ -1,6 +1,6 @@
 services:
   remnanode:
-    image: ${CUSTOM_NODE_IMAGE:-ghcr.io/fourgetu/remnawave-node:custom-v0.2.0}
+    image: ${CUSTOM_NODE_IMAGE:-ghcr.io/fourgetu/remnawave-node:custom-v0.2.1}
     container_name: remnanode-custom
     hostname: remnanode
     network_mode: host

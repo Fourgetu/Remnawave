@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-VERSION="custom-v0.2.0"
+VERSION="custom-v0.2.1"
 BASE_URL="https://raw.githubusercontent.com/Fourgetu/Remnawave/${VERSION}"
 TARGET_DIR="${INSTALL_DIR:-${HOME}/remnawave-custom}"
 
