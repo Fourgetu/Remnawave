@@ -1,15 +1,15 @@
 # Fourgetu Remnawave Custom Release
 
-本文档对应正式版本 `custom-v0.2.3`。这是 Fourgetu Remnawave 自定义发行版，不是官方 `main` 的原版发行版。
+本文档对应正式版本 `custom-v0.2.4`。这是 Fourgetu Remnawave 自定义发行版，不是官方 `main` 的原版发行版。
 
 ## 版本清单
 
 | 组件       | Git tag         | 产物                                                                  |
 | ---------- | --------------- | --------------------------------------------------------------------- |
-| Backend    | `custom-v0.2.3` | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.3`                    |
+| Backend    | `custom-v0.2.4` | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.4`                    |
 | Node       | `custom-v0.2.1` | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.1`                       |
-| Frontend   | `custom-v0.2.3` | GitHub Release asset `remnawave-frontend.zip`；已内嵌到 Backend image |
-| Panel/docs | `custom-v0.2.3` | 本文档、Compose 模板和部署说明                                        |
+| Frontend   | `custom-v0.2.4` | GitHub Release asset `remnawave-frontend.zip`；已内嵌到 Backend image |
+| Panel/docs | `custom-v0.2.4` | 本文档、Compose 模板和部署说明                                        |
 
 Backend image 会在构建时下载同 tag 的 Frontend release asset，因此部署时不需要额外运行 Frontend 容器。
 
@@ -29,7 +29,7 @@ Backend image 会在构建时下载同 tag 的 Frontend release asset，因此�
 确认脚本内容后，可以执行：
 
 ```bash
-curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.3/install-panel.sh | bash
+curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.4/install-panel.sh | bash
 ```
 
 脚本会询问 Panel 域名，自动生成 `APP_SECRET`、数据库密码和 metrics 密码，然后下载固定版本 Compose 并启动服务。默认安装目录为 `~/remnawave-custom`，已存在的 `.env` 不会被覆盖。
@@ -39,9 +39,9 @@ mkdir -p remnawave-custom
 cd remnawave-custom
 
 curl -fL -o docker-compose.custom.yml \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.3/docker-compose.custom.yml
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.4/docker-compose.custom.yml
 curl -fL -o .env.example \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.3/.env.custom.example
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.4/.env.custom.example
 cp .env.example .env
 ```
 
@@ -93,7 +93,7 @@ http://127.0.0.1:3000
 先在 Panel 中创建 Node 并复制 Secret，然后执行：
 
 ```bash
-curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.3/install-node.sh | bash
+curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.4/install-node.sh | bash
 ```
 
 脚本会安全地询问 Node Secret，下载固定版本 Node Compose，启用 `NET_ADMIN` 和 `nftables` Port Hopping，并启动 Node。默认安装目录为 `~/remnawave-custom-node`，已存在的 `.env.node` 不会被覆盖。
@@ -105,9 +105,9 @@ mkdir -p remnawave-custom-node
 cd remnawave-custom-node
 
 curl -fL -o docker-compose.custom-node.yml \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.3/docker-compose.custom-node.yml
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.4/docker-compose.custom-node.yml
 curl -fL -o .env.node.example \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.3/.env.custom-node.example
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.4/.env.custom-node.example
 cp .env.node.example .env.node
 ```
 
@@ -174,4 +174,4 @@ docker compose --env-file .env.node -f docker-compose.custom-node.yml logs --tai
 
 - 立即更换 `APP_SECRET`、数据库密码、metrics 密码和 Node secret；不要把 `.env` 提交到 Git。
 - 这是自定义发行版。请在升级前备份数据库，并在真实 NAT VPS/LXC、UDP、nftables、GOST reload、双 core 和客户端组合上按自身网络环境验证。
-- 当前 `main` 不包含这些魔改；本部署文档只适用于同一 `custom-v0.2.3` 版本清单。
+- 当前 `main` 不包含这些魔改；本部署文档只适用于同一 `custom-v0.2.4` 版本清单。

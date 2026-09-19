@@ -1,6 +1,6 @@
 services:
   remnawave:
-    image: ${CUSTOM_BACKEND_IMAGE:-ghcr.io/fourgetu/remnawave-backend:custom-v0.2.3}
+    image: ${CUSTOM_BACKEND_IMAGE:-ghcr.io/fourgetu/remnawave-backend:custom-v0.2.4}
     container_name: remnawave-custom
     hostname: remnawave
     restart: always
