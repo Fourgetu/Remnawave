@@ -7,8 +7,8 @@
   <p>双内核 · 一键搭建节点 · 一键中转落地 · User Route / GOST 限速 · Hysteria2 端口跳跃</p>
 
   <p>
-    <a href="https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.8">
-      <img src="https://img.shields.io/badge/release-custom--v0.2.8-0969da?style=flat-square" alt="custom-v0.2.8">
+    <a href="https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.9">
+      <img src="https://img.shields.io/badge/release-custom--v0.2.9-0969da?style=flat-square" alt="custom-v0.2.9">
     </a>
     <a href="https://github.com/Fourgetu/Remnawave/pkgs/container/remnawave-backend">
       <img src="https://img.shields.io/badge/GHCR-amd64%20%7C%20arm64-2496ED?style=flat-square&logo=docker&logoColor=white" alt="GHCR multi-arch">
@@ -26,16 +26,16 @@
 
 本项目在保留 Remnawave 原有用户、订阅、节点、Host、流量统计等能力的基础上，加入了 Xray + sing-box 双内核、Visual Config Builder、用户线路、GOST 限速、Hysteria2 Port Hopping、Panel 托管证书及完整中文化等功能。
 
-当前正式版本：[`custom-v0.2.8`](https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.8)
+当前正式版本：[`custom-v0.2.9`](https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.9)
 
 | 组件 | 正式版本 / 镜像 |
 | --- | --- |
-| Panel / Backend | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.8` |
-| Frontend | `Fourgetu/frontend:custom-v0.2.8`，已内嵌到 Backend 镜像 |
-| Node | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.1` |
+| Panel / Backend | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.9` |
+| Frontend | `Fourgetu/frontend:custom-v0.2.9`，已内嵌到 Backend 镜像 |
+| Node | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.9` |
 | 架构 | `linux/amd64`、`linux/arm64` |
 
-Node 在本次版本没有源码变化，因此继续使用已经验证的 `custom-v0.2.1`，这不是版本遗漏。
+本版必须配套使用 `custom-v0.2.9` Node，不能继续复用旧 Node 镜像。
 
 ## 魔改功能
 
@@ -66,8 +66,9 @@ Node 在本次版本没有源码变化，因此继续使用已经验证的 `cust
 - 选择目标 Node、Xray / sing-box 核心及对应 Config Profile。
 - Node 尚未绑定该核心 Profile 时，可以在部署流程中自动创建或完成绑定，不会覆盖另一个核心的 Profile。
 - 支持一次选择多个推荐协议，并自动生成不冲突的 Inbound tag、监听端口和必要的协议参数。
-- Xray 正式可用预设：VLESS Reality Vision、VLESS Reality gRPC、Trojan TCP TLS、Hysteria2、Mixed。
-- sing-box 正式可用预设：Hysteria2、Mixed。
+- Xray 正式可用预设包括 VLESS Reality Vision、SS2022 AES-128/AES-256，以及现有 Xray 模板。
+- sing-box 正式可用预设包括 VLESS Reality Vision、SS2022 AES-128/AES-256、Hysteria2 和 Mixed。
+- SS2022 ChaCha20 当前不支持 Remnawave Managed Users，因此 Quick Protocol / Quick Deploy 不开放该 method。
 - Reality 自动生成 X25519 密钥和 serviceName，并提供 Mihomo / sing-box 客户端兼容策略。
 - TLS 协议可以使用 Panel 托管证书，或指定容器内已有证书路径。
 - 可按需创建订阅 Host；Mixed 等工具型协议默认不会自动暴露到订阅。
@@ -167,7 +168,7 @@ Xray 入站监听 `0.0.0.0` 时，可在显式开启兼容模式并确认风险�
 在 Panel 服务器执行：
 
 ```bash
-bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.8/install-panel.sh | sed 's/\r$//')
+bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.9/install-panel.sh | sed 's/\r$//')
 ```
 
 安装脚本会：
@@ -175,7 +176,7 @@ bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom
 1. 询问 Panel 域名；
 2. 自动生成 `APP_SECRET`、PostgreSQL 密码和 Metrics 密码；
 3. 下载固定版本的 Compose 与环境变量模板；
-4. 拉取 `custom-v0.2.8` Backend 镜像并启动 Panel、PostgreSQL 和 Valkey。
+4. 拉取 `custom-v0.2.9` Backend 镜像并启动 Panel、PostgreSQL 和 Valkey。
 
 默认安装目录：
 
@@ -208,7 +209,7 @@ https://panel.example.com → http://127.0.0.1:3000
 在 Node 服务器执行：
 
 ```bash
-bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.8/install-node.sh | sed 's/\r$//')
+bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.9/install-node.sh | sed 's/\r$//')
 ```
 
 脚本会要求输入刚才复制的 Node Secret，然后下载固定版本 Compose、启用 `NET_ADMIN` / `nftables` Port Hopping 支持，并启动 Node。
@@ -238,7 +239,7 @@ Node 使用 host network，API 默认直接监听主机的 `2222` 端口。请�
 
 ```bash
 INSTALL_DIR=/opt/remnawave-custom \
-  bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.8/install-panel.sh | sed 's/\r$//')
+  bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.9/install-panel.sh | sed 's/\r$//')
 ```
 
 Node 同样可以通过 `INSTALL_DIR` 指定目录。
@@ -250,7 +251,7 @@ Node 同样可以通过 `INSTALL_DIR` 指定目录。
 完整的手动部署、备份、升级和故障排查说明请查看：
 
 - [自定义部署文档](./CUSTOM_DEPLOYMENT.md)
-- [custom-v0.2.8 Release Notes](./RELEASE_NOTES_custom-v0.2.8.md)
+- [custom-v0.2.9 Release Notes](./RELEASE_NOTES_custom-v0.2.9.md)
 - [全部 GitHub Releases](https://github.com/Fourgetu/Remnawave/releases)
 
 ## 安全说明
