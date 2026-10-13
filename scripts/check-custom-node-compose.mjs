@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 
 const composePath = new URL('../docker-compose.custom-node.yml', import.meta.url)
-const compose = await readFile(composePath, 'utf8')
+const compose = (await readFile(composePath, 'utf8')).replace(/\r\n/g, '\n')
 
 if (!/env_file:\s*\n\s*-\s*\.env\.node\b/.test(compose)) {
     throw new Error('docker-compose.custom-node.yml must load .env.node')
