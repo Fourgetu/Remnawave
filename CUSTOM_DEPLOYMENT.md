@@ -1,19 +1,19 @@
 # Fourgetu Remnawave Custom Release
 
-本文档对应正式版本 `custom-v0.2.14`。这是 Fourgetu Remnawave 自定义发行版，不是官方 `main` 的原版发行版。
+本文档对应正式版本 `custom-v0.2.15`。这是 Fourgetu Remnawave 自定义发行版，不是官方 `main` 的原版发行版。
 
 ## 版本清单
 
 | 组件       | Git tag         | 产物                                                                  |
 | ---------- | --------------- | --------------------------------------------------------------------- |
-| Backend    | `custom-v0.2.14` | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.14`                  |
-| Node       | `custom-v0.2.9` | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.9`                       |
+| Backend    | `custom-v0.2.15` | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.15`                  |
+| Node       | `custom-v0.2.15` | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.15`                       |
 | Frontend   | `custom-v0.2.14` | GitHub Release asset `remnawave-frontend.zip`；已内嵌到 Backend image |
-| Panel/docs | `custom-v0.2.14` | 本文档、Compose 模板和部署说明                                       |
+| Panel/docs | `custom-v0.2.15` | 本文档、Compose 模板和部署说明                                       |
 
-Backend image 会在构建时下载同 tag 的 Frontend release asset，因此部署时不需要额外运行 Frontend 容器。
+Backend image 构建时固定复用 Frontend custom-v0.2.14 release asset，因此部署时不需要额外运行 Frontend 容器。
 
-本版同步精确 ID 筛选、gRPC 订阅和事件修复、节点编辑优化、流量重置日期模板、Host 事务克隆、traceroute 与界面修正。前后端配套更新，无新增数据库 migration，Node 继续使用 `custom-v0.2.9`。Host 克隆默认禁用，复制 Host 字段与节点/内部组关联，不复制独立用户路由；受限 API token 需有 `hosts:clone` 写权限。数字 ID 改为精确匹配；消费订阅 Redis Stream 的外部程序需识别 `srrResponseType`，积压历史记录仍可能含旧拼写。节点任务历史保留为 12 小时、成功/失败各最多 500 条。
+本版升级 Backend 与 Node 的 Node.js 运行时至 24.22.1，适配 X25519 公钥派生，修复 REALITY 与 VLESS encryption 在新运行时的兼容性，并将按状态批量删除用户改为参数化查询。保留双内核与 NAT/GOST、限速和端口跳跃定制。Frontend 复用 custom-v0.2.14，无新增数据库 migration 或 npm 依赖升级。
 
 ## 前置条件
 
@@ -31,7 +31,7 @@ Backend image 会在构建时下载同 tag 的 Frontend release asset，因此�
 确认脚本内容后，可以执行：
 
 ```bash
-curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.14/install-panel.sh | bash
+bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.15/install-panel.sh | sed 's/\r$//')
 ```
 
 脚本会询问 Panel 域名，自动生成 `APP_SECRET`、数据库密码和 metrics 密码，然后下载固定版本 Compose 并启动服务。默认安装目录为 `~/remnawave-custom`，已存在的 `.env` 不会被覆盖。
@@ -41,9 +41,9 @@ mkdir -p remnawave-custom
 cd remnawave-custom
 
 curl -fL -o docker-compose.custom.yml \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.14/docker-compose.custom.yml
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.15/docker-compose.custom.yml
 curl -fL -o .env.example \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.14/.env.custom.example
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.15/.env.custom.example
 cp .env.example .env
 ```
 
@@ -95,7 +95,7 @@ http://127.0.0.1:3000
 先在 Panel 中创建 Node 并复制 Secret，然后执行：
 
 ```bash
-curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.14/install-node.sh | bash
+bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.15/install-node.sh | sed 's/\r$//')
 ```
 
 脚本会安全地询问 Node Secret，下载固定版本 Node Compose，启用 `NET_ADMIN` 和 `nftables` Port Hopping，并启动 Node。默认安装目录为 `~/remnawave-custom-node`，已存在的 `.env.node` 不会被覆盖。
@@ -107,9 +107,9 @@ mkdir -p remnawave-custom-node
 cd remnawave-custom-node
 
 curl -fL -o docker-compose.custom-node.yml \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.14/docker-compose.custom-node.yml
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.15/docker-compose.custom-node.yml
 curl -fL -o .env.node.example \
-  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.14/.env.custom-node.example
+  https://raw.githubusercontent.com/Fourgetu/Remnawave/custom-v0.2.15/.env.custom-node.example
 cp .env.node.example .env.node
 ```
 
@@ -148,7 +148,7 @@ docker compose -f docker-compose.custom.yml exec -T remnawave-db \
   pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" > backup-$(date +%Y%m%d-%H%M%S).sql
 ```
 
-按本次版本清单更新镜像：Panel 使用 `custom-v0.2.14`，Node 有意继续使用 `custom-v0.2.9`。本版不新增数据库 migration，已有 migration 仍按项目原机制处理；升级前必须先备份 PostgreSQL。然后执行：
+按本次版本清单更新镜像：Panel 使用 `custom-v0.2.15`，Node 同时升级至 `custom-v0.2.15`。本版不新增数据库 migration，已有 migration 仍按项目原机制处理；升级前必须先备份 PostgreSQL。然后执行：
 
 ```bash
 docker compose -f docker-compose.custom.yml pull
@@ -176,4 +176,4 @@ docker compose --env-file .env.node -f docker-compose.custom-node.yml logs --tai
 
 - 立即更换 `APP_SECRET`、数据库密码、metrics 密码和 Node secret；不要把 `.env` 提交到 Git。
 - 这是自定义发行版。请在升级前备份数据库，并在真实 NAT VPS/LXC、UDP、nftables、GOST reload、双 core 和客户端组合上按自身网络环境验证。
-- 当前 `main` 不包含这些魔改；本部署文档只适用于上述 `custom-v0.2.14` 版本清单。
+- 当前 `main` 不包含这些魔改；本部署文档只适用于上述 `custom-v0.2.15` 版本清单。

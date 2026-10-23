@@ -7,8 +7,8 @@
   <p>双内核 · 一键搭建节点 · 一键中转落地 · User Route / GOST 限速 · Hysteria2 端口跳跃</p>
 
   <p>
-    <a href="https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.14">
-      <img src="https://img.shields.io/badge/release-custom--v0.2.14-0969da?style=flat-square" alt="custom-v0.2.14">
+    <a href="https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.15">
+      <img src="https://img.shields.io/badge/release-custom--v0.2.15-0969da?style=flat-square" alt="custom-v0.2.15">
     </a>
     <a href="https://github.com/Fourgetu/Remnawave/pkgs/container/remnawave-backend">
       <img src="https://img.shields.io/badge/GHCR-amd64%20%7C%20arm64-2496ED?style=flat-square&logo=docker&logoColor=white" alt="GHCR multi-arch">
@@ -26,16 +26,16 @@
 
 本项目在保留 Remnawave 原有用户、订阅、节点、Host、流量统计等能力的基础上，加入了 Xray + sing-box 双内核、Visual Config Builder、用户线路、GOST 限速、Hysteria2 Port Hopping、Panel 托管证书及完整中文化等功能。
 
-当前正式版本：[`custom-v0.2.14`](https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.14)
+当前正式版本：[`custom-v0.2.15`](https://github.com/Fourgetu/Remnawave/releases/tag/custom-v0.2.15)
 
 | 组件 | 正式版本 / 镜像 |
 | --- | --- |
-| Panel / Backend | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.14` |
+| Panel / Backend | `ghcr.io/fourgetu/remnawave-backend:custom-v0.2.15` |
 | Frontend | `Fourgetu/frontend:custom-v0.2.14`，已内嵌到 Backend 镜像 |
-| Node | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.9` |
+| Node | `ghcr.io/fourgetu/remnawave-node:custom-v0.2.15` |
 | 架构 | `linux/amd64`、`linux/arm64` |
 
-本版适配三批上游改进：精确 ID 筛选和订阅修复、减少节点编辑引起的不必要重启、流量重置日期模板、Host 事务克隆，以及 traceroute 展示和界面修正。保留双内核、NAT/GOST、端口跳跃、自定义重置日和扁平 VLESS 编辑等定制能力。Panel 使用 `custom-v0.2.14`，Node 继续使用 `custom-v0.2.9`。
+本版同步运行时安全维护：Backend 和 Node 升级至 Node.js 24.22.1，修复双内核 REALITY 公钥及 VLESS encryption 派生兼容性，按状态批量删除用户改为参数化查询。保留双内核、NAT/GOST、端口跳跃和自定义重置日。Panel 与 Node 使用 `custom-v0.2.15`，前端复用 `custom-v0.2.14`，无新增数据库 migration。
 
 ## 魔改功能
 
@@ -168,7 +168,7 @@ Xray 入站监听 `0.0.0.0` 时，可在显式开启兼容模式并确认风险�
 在 Panel 服务器执行：
 
 ```bash
-bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.14/install-panel.sh | sed 's/\r$//')
+bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.15/install-panel.sh | sed 's/\r$//')
 ```
 
 安装脚本会：
@@ -176,7 +176,7 @@ bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom
 1. 询问 Panel 域名；
 2. 自动生成 `APP_SECRET`、PostgreSQL 密码和 Metrics 密码；
 3. 下载固定版本的 Compose 与环境变量模板；
-4. 拉取 `custom-v0.2.14` Backend 镜像并启动 Panel、PostgreSQL 和 Valkey。
+4. 拉取 `custom-v0.2.15` Backend 镜像并启动 Panel、PostgreSQL 和 Valkey。
 
 默认安装目录：
 
@@ -209,7 +209,7 @@ https://panel.example.com → http://127.0.0.1:3000
 在 Node 服务器执行：
 
 ```bash
-bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.14/install-node.sh | sed 's/\r$//')
+bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.15/install-node.sh | sed 's/\r$//')
 ```
 
 脚本会要求输入刚才复制的 Node Secret，然后下载固定版本 Compose、启用 `NET_ADMIN` / `nftables` Port Hopping 支持，并启动 Node。
@@ -239,7 +239,7 @@ Node 使用 host network，API 默认直接监听主机的 `2222` 端口。请�
 
 ```bash
 INSTALL_DIR=/opt/remnawave-custom \
-  bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.14/install-panel.sh | sed 's/\r$//')
+  bash <(curl -fsSL https://github.com/Fourgetu/Remnawave/releases/download/custom-v0.2.15/install-panel.sh | sed 's/\r$//')
 ```
 
 Node 同样可以通过 `INSTALL_DIR` 指定目录。
@@ -251,7 +251,7 @@ Node 同样可以通过 `INSTALL_DIR` 指定目录。
 完整的手动部署、备份、升级和故障排查说明请查看：
 
 - [自定义部署文档](./CUSTOM_DEPLOYMENT.md)
-- [custom-v0.2.14 Release Notes](./RELEASE_NOTES_custom-v0.2.14.md)
+- [custom-v0.2.15 Release Notes](./RELEASE_NOTES_custom-v0.2.15.md)
 - [custom-v0.2.12 Release Notes](./RELEASE_NOTES_custom-v0.2.12.md)
 - [全部 GitHub Releases](https://github.com/Fourgetu/Remnawave/releases)
 
