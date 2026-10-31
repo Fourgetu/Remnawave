@@ -1,0 +1,25 @@
+{
+  "version": "custom-v0.2.16",
+  "backend": {
+    "source": "50d14e25d793b9f925ba0136bb133a79ac815ba6",
+    "image": "ghcr.io/fourgetu/remnawave-backend:custom-v0.2.16",
+    "digest": "sha256:ef3ef7daf0a0e1c9c378ba80e2af2534dfafa32d02d862c5ad5af472ade97930",
+    "platforms": {
+      "linux/amd64": "sha256:9d9483d09821dd261c19e744de52f64b742aa88f83b62710f1312403936f0db3",
+      "linux/arm64": "sha256:78759a26e8b7223aa6e4739ae0f8f06706acdb5404578ad8aca348bc44fb5d74"
+    }
+  },
+  "frontend": {
+    "source": "86225d30669d99a340623fbd28c086a71989a377",
+    "version": "custom-v0.2.16",
+    "asset": "remnawave-frontend.zip",
+    "sha256": "e012ba733b44a5e4be1384dcaac6e954726c5b75e7d3897841fcd530a96ca9b5"
+  },
+  "node": {
+    "source": "89049ca93f172c094abc9ae1c27b914693c47cff",
+    "version": "custom-v0.2.15",
+    "image": "ghcr.io/fourgetu/remnawave-node:custom-v0.2.15",
+    "digest": "sha256:8c83356b4079780264b2ab7292c4910a279177387875652ec4ddd66e297c99ba"
+  },
+  "databaseMigrationsAdded": false
+}
